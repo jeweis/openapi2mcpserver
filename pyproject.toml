@@ -3,12 +3,12 @@ requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "jewei-demo-mcp-server"
+name = "openapi2mcp"
 version = "0.1.0"
 authors = [
     {name = "Jewei", email = "jiweifong@qq.com"}
 ]
-description = "DEMO MCP服务器，提供DEMO功能"
+description = "OpenAPI to MCP服务器，提供OpenAPI转换为MCP功能"
 readme = "README.md"
 requires-python = ">=3.7"
 classifiers = [
@@ -22,11 +22,11 @@ dependencies = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/jeweis/jewei-demo-mcp-server"
-"Bug Tracker" = "https://github.com/jeweis/jewei-demo-mcp-server/issues"
+"Homepage" = "https://github.com/jeweis/openapi2mcp"
+"Bug Tracker" = "https://github.com/jeweis/openapi2mcp/issues"
 
 [project.scripts]
-jewei-demo-mcp-server = "jewei_demo_mcp_server.server:main"
+openapi2mcp = "server:main"
 
 [tool.setuptools]
-packages = ["jewei_demo_mcp_server"]
+packages = ["openapi2mcp"]

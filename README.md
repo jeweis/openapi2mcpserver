@@ -1,10 +1,10 @@
-# MySQL MCP Server
+# OpenAPI to MCP Server
 
-这是一个基于FastMCP的demo服务器，提供了以下功能：
+这是一个基于FastMCP的OpenAPI转换服务器，提供了以下功能：
 
-- 测试工具
-- 测试资源
-- 测试提示
+- OpenAPI规范解析
+- 自动生成MCP工具
+- API调用封装
 
 
 ## MCP 配置
@@ -18,25 +18,22 @@
 ```json
 {
   "mcpServers": {
-    "jewei-mysql": {
+    "openapi2mcp": {
       "disabled": false,
       "command": "uvx",
       "args": [
-        "jewei-demo-mcp-server"
+        "openapi2mcp"
       ],
       "env": {
-        "DB_HOST": "your_db_host",
-        "DB_USER": "your_db_user",
-        "DB_PASSWORD": "your_db_password",
-        "DB_NAME": "your_db_name",
-        "DB_PORT": "your_db_port"
+        "BASE_URL": "your_openapi3.0_host",
+        "OPEN_API_DOC_JSON_URL": "your_openapi3.0_host doc  json url"
       }
     }
   }
 }
 ```
 
-请将 `your_db_host`, `your_db_user`, `your_db_password`, 和 `your_db_name` 替换为您的实际数据库连接信息。
+请将 `BASE_URL`, `OPEN_API_DOC_JSON_URL` 替换为您的实际 OpenAPI 服务器地址和文档 JSON URL。
 
 ### Cline
 
@@ -46,24 +43,21 @@
 // Cline 配置文件示例 (具体格式请参考 Cline 文档)
 {
   "mcpServers": {
-    "jewei-mysql": {
+    "openapi2mcp": {
       "command": "uvx",
       "args": [
-        "jewei-demo-mcp-server"
+        "openapi2mcp"
       ],
       "env": {
-        "DB_HOST": "your_db_host",
-        "DB_USER": "your_db_user",
-        "DB_PASSWORD": "your_db_password",
-        "DB_NAME": "your_db_name",
-        "DB_PORT": "your_db_port"
+        "BASE_URL": "your_openapi3.0_host",
+        "OPEN_API_DOC_JSON_URL": "your_openapi3.0_host doc  json url"
       }
     }
   }
 }
 ```
 
-请将示例中的占位符替换为您的实际数据库连接信息，并根据 Cline 的具体配置格式进行调整。
+请将示例中的占位符替换为您的实际 OpenAPI 服务器地址和文档 JSON URL，并根据 Cline 的具体配置格式进行调整。
 
 ## 安装
 
@@ -76,11 +70,8 @@
 在项目根目录创建`.env`文件，包含以下环境变量：
 
 ```
-DB_HOST=localhost
-DB_PORT=3306
-DB_USER=root
-DB_PASSWORD=your_password
-DB_NAME=your_database
+BASE_URL=https://api.xxx.com
+OPEN_API_DOC_JSON_URL=https://api.xxx.com/api/v3/api-docs/default
 ```
 
 ## 运行
@@ -88,13 +79,7 @@ DB_NAME=your_database
 ### 使用uvx安装并运行（推荐）
 
 ```bash
-uvx --from jewei-demo-mcp-server jewei-demo-mcp-server
-```
-
-### 或者从源码运行
-
-```bash
-python -m jewei_demo_mcp_server.server
+uvx --from openapi2mcp
 ```
 
 ## 功能

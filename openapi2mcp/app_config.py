@@ -13,16 +13,20 @@ class Config:
     """配置类，用于管理应用程序配置"""
     
     # 测试配置
-    DB_USER = os.getenv("DB_USER", "root")
+    BASE_URL = os.getenv("BASE_URL", "")
+
+    
+    OPEN_API_DOC_JSON_URL = os.getenv("OPEN_API_DOC_JSON_URL", "")
     
     # 服务器配置
-    SERVER_NAME = os.getenv("SERVER_NAME", "JEWEI-DEMO-Server")
+    SERVER_NAME = os.getenv("SERVER_NAME", "OpenAPI2MCP-Server")
     
     # 连接字符串
     @property
     def CONNECTION_STRING(self):
+        """Returns the base URL as a connection string."""
         """构建字符串"""
-        return f"{self.DB_USER}测试"
+        return f"{self.BASE_URL}"
 
 # 创建默认配置实例
 config = Config()

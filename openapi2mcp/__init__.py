@@ -1,8 +1,7 @@
 # __init__.py
-"""DEMO MCP服务器包"""
+"""OpenAPI to MCP服务器包"""
 
 from . import app_config
 from . import core
-from . import server
 
 __version__ = "0.1.0"
