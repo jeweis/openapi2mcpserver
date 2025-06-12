@@ -3,10 +3,6 @@
 MCP服务器主模块，提供openapi2mcp功能
 """
 
-from typing import Dict, Any
-from fastmcp import FastMCP
-
-from typing import Dict, Any
 from fastmcp import FastMCP
 
 from openapi2mcp.app_config import config
