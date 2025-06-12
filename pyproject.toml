@@ -3,7 +3,7 @@ requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "openapi2mcp"
+name = "openapi2mcpserver"
 version = "0.1.0"
 authors = [
     {name = "Jewei", email = "jiweifong@qq.com"}
@@ -23,11 +23,11 @@ dependencies = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/jeweis/openapi2mcp"
-"Bug Tracker" = "https://github.com/jeweis/openapi2mcp/issues"
+"Homepage" = "https://github.com/jeweis/openapi2mcpserver"
+"Bug Tracker" = "https://github.com/jeweis/openapi2mcpserver/issues"
 
 [project.scripts]
-openapi2mcp = "server:main"
+openapi2mcpserver = "server:main"
 
 [tool.setuptools]
-packages = ["openapi2mcp"]
+packages = ["openapi2mcpserver"]

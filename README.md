@@ -18,11 +18,11 @@
 ```json
 {
   "mcpServers": {
-    "openapi2mcp": {
+    "openapi2mcpserver": {
       "disabled": false,
       "command": "uvx",
       "args": [
-        "openapi2mcp"
+        "openapi2mcpserver"
       ],
       "env": {
         "BASE_URL": "your_openapi3.0_host",
@@ -43,10 +43,10 @@
 // Cline 配置文件示例 (具体格式请参考 Cline 文档)
 {
   "mcpServers": {
-    "openapi2mcp": {
+    "openapi2mcpserver": {
       "command": "uvx",
       "args": [
-        "openapi2mcp"
+        "openapi2mcpserver"
       ],
       "env": {
         "BASE_URL": "your_openapi3.0_host",
@@ -79,7 +79,7 @@ OPEN_API_DOC_JSON_URL=https://api.xxx.com/api/v3/api-docs/default
 ### 使用uvx安装并运行（推荐）
 
 ```bash
-uvx --from openapi2mcp
+uvx --from openapi2mcpserver
 ```
 
 ## 功能

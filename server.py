@@ -5,8 +5,8 @@ MCP服务器主模块，提供openapi2mcp功能
 
 from fastmcp import FastMCP
 
-from openapi2mcp.app_config import config
-from openapi2mcp.core import helloworld
+from openapi2mcpserver.app_config import config
+from openapi2mcpserver.core import helloworld
 import httpx
 
 # 创建MCP服务器实例
@@ -20,13 +20,13 @@ openapi_spec = httpx.get(config.OPEN_API_DOC_JSON_URL).json()
 mcp = FastMCP.from_openapi(
     openapi_spec=openapi_spec,
     client=client,
-    name="openapi2mcp server"
+    name="openapi2mcpserver server"
 )
 
 
 def main():
     """主函数，用于启动openapi2mcp服务器"""
-    print("启动 openapi2mcp MCP 服务器...")
+    print("启动 openapi2mcpserver MCP 服务器...")
     mcp.run()
     # To use a different transport, e.g., HTTP:
     # mcp.run(transport="streamable-http", host="127.0.0.1", port=9087)
