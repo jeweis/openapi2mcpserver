@@ -10,7 +10,7 @@ authors = [
 ]
 description = "OpenAPI to MCP服务器，提供OpenAPI转换为MCP功能"
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.10"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
