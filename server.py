@@ -7,6 +7,7 @@ from fastmcp import FastMCP
 
 from openapi2mcpserver.app_config import config
 from openapi2mcpserver.core import helloworld
+from fastmcp.server.openapi import RouteMap, MCPType
 import httpx
 
 # 创建MCP服务器实例
@@ -20,7 +21,15 @@ openapi_spec = httpx.get(config.OPEN_API_DOC_JSON_URL).json()
 mcp = FastMCP.from_openapi(
     openapi_spec=openapi_spec,
     client=client,
-    name="openapi2mcpserver server"
+    name="openapi2mcpserver server",
+    route_maps=[
+        RouteMap(
+            methods=["GET"], 
+            pattern=r"^/api/user/protect/userManage/.*", 
+            mcp_type=MCPType.TOOL,
+        ),
+        RouteMap(mcp_type=MCPType.EXCLUDE),
+         ]
 )
 
 
