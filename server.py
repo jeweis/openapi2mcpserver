@@ -18,18 +18,20 @@ client = httpx.AsyncClient(base_url=config.BASE_URL)
 
 openapi_spec = httpx.get(config.OPEN_API_DOC_JSON_URL).json()
 
+route_map_list=[]
+
+route_map_list.append(RouteMap(
+            methods=["GET"], 
+            pattern=r"^/user/userManage/.*", 
+            mcp_type=MCPType.TOOL,
+        ))
+route_map_list.append(RouteMap(mcp_type=MCPType.EXCLUDE))
+
 mcp = FastMCP.from_openapi(
     openapi_spec=openapi_spec,
     client=client,
     name="openapi2mcpserver server",
-    route_maps=[
-        RouteMap(
-            methods=["GET"], 
-            pattern=r"^/user/userManage/.*", 
-            mcp_type=MCPType.TOOL,
-        ),
-        RouteMap(mcp_type=MCPType.EXCLUDE),
-         ]
+    route_maps=route_map_list
 )
 
 
