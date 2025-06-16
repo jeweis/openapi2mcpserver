@@ -20,11 +20,16 @@ openapi_spec = httpx.get(config.OPEN_API_DOC_JSON_URL).json()
 
 route_map_list=[]
 
-route_map_list.append(RouteMap(
-            methods=["GET"], 
-            pattern=r"^/user/userManage/.*", 
-            mcp_type=MCPType.TOOL,
-        ))
+# 从环境变量中读取路由配置
+route_configs = config.get_route_maps()
+for route_config in route_configs:
+    route_map_list.append(RouteMap(
+        methods=route_config['methods'],
+        pattern=route_config['pattern'],
+        mcp_type=MCPType.TOOL,
+    ))
+
+# 添加默认的排除规则
 route_map_list.append(RouteMap(mcp_type=MCPType.EXCLUDE))
 
 mcp = FastMCP.from_openapi(
