@@ -1,0 +1,169 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# OpenAPI to MCP Server 项目指南
+
+## 项目概述
+
+这是一个基于 FastMCP 框架的 OpenAPI 3.0 到 MCP (Model Context Protocol) 转换器，主要功能是自动将 REST API 转换为 MCP 工具，让 AI 助手能够直接调用 API 接口。
+
+项目版本：0.1.3  
+作者：Jewei (jiweifong@qq.com)  
+GitHub：https://github.com/jeweis/openapi2mcpserver
+
+## 核心架构
+
+### 主入口点
+项目的主入口是 [server.py](mdc:server.py)，它负责：
+- 初始化 FastMCP 服务器
+- 从指定 URL 获取 OpenAPI 规范文档
+- 配置路由映射和过滤规则
+- 启动 MCP 服务器（默认端口 9087）
+
+### 配置管理
+配置由 [openapi2mcpserver/app_config.py](mdc:openapi2mcpserver/app_config.py) 管理，包含：
+- `BASE_URL`: OpenAPI 服务器基础 URL
+- `OPEN_API_DOC_JSON_URL`: OpenAPI 文档 JSON URL
+- `ROUTE_MAPS`: 路由过滤配置（JSON 格式）
+- `SERVER_NAME`: MCP 服务器名称
+
+### 核心模块
+[openapi2mcpserver/core.py](mdc:openapi2mcpserver/core.py) 包含核心业务逻辑，目前主要是测试功能。
+
+## 项目结构
+
+```
+openapi2mcp/
+├── server.py                    # 主入口文件
+├── pyproject.toml              # 项目配置和依赖管理
+├── requirements.txt            # Python 依赖列表
+├── README.md                   # 项目说明文档
+└── openapi2mcpserver/          # 主包目录
+    ├── __init__.py             # 包初始化
+    ├── app_config.py           # 配置管理
+    └── core.py                 # 核心功能模块
+```
+
+## 关键技术栈
+
+### 主要依赖
+根据 [pyproject.toml](mdc:pyproject.toml) 和 [requirements.txt](mdc:requirements.txt)：
+- `fastmcp>=0.1.0`: MCP 协议框架（实际使用 v2.8.1+）
+- `httpx>=0.24.0`: 异步 HTTP 客户端，用于获取 OpenAPI 文档和 API 调用
+- `python-dotenv>=0.19.0`: 环境变量管理
+
+### FastMCP 版本说明
+- 本项目使用 FastMCP 2.8.0+ 的新特性
+- 默认将所有路径转换为 `MCPType.TOOL`（2.8.0 后的默认行为）
+- 支持 `from_openapi` 方法和高级路由映射功能
+
+### Python 版本要求
+- 最低支持 Python 3.10+
+
+## 配置指南
+
+### 环境变量配置
+在项目根目录创建 `.env` 文件：
+```env
+BASE_URL=https://api.example.com
+OPEN_API_DOC_JSON_URL=https://api.example.com/openapi.json
+SERVER_NAME=My-OpenAPI-MCP-Server
+ROUTE_MAPS=[{"methods":["GET","POST"],"pattern":"/api/*"}]
+```
+
+### 路由映射配置
+`ROUTE_MAPS` 支持 JSON 格式的路由过滤：
+```json
+[
+  {
+    "methods": ["GET", "POST"],
+    "pattern": "/api/users/*"
+  },
+  {
+    "methods": ["GET"],
+    "pattern": "/api/health"
+  }
+]
+```
+
+## 开发规范
+
+### 代码结构
+- 配置相关代码放在 `openapi2mcpserver/app_config.py`
+- 核心业务逻辑放在 `openapi2mcpserver/core.py`
+- 主服务器逻辑保持在 `server.py`
+
+### 添加新功能
+1. 在 `openapi2mcpserver/core.py` 中添加核心逻辑
+2. 如需新的配置项，在 `app_config.py` 中添加
+3. 在 `server.py` 中集成新功能
+4. 更新 `pyproject.toml` 中的版本号
+
+### 测试和调试
+- 本地运行：`python server.py`
+- 服务器运行在 `http://127.0.0.1:9087`（项目自定义端口）
+- 使用 `streamable-http` 传输协议（MCP 标准支持的传输方式）
+- 注意：FastMCP 默认使用 `stdio` 传输，本项目配置为 HTTP 传输以支持远程访问
+
+## 部署指南
+
+### 推荐部署方式
+使用 uvx 快速部署：
+```bash
+uvx --from openapi2mcpserver
+```
+
+### 本地开发
+```bash
+# 安装依赖
+pip install -r requirements.txt
+
+# 运行服务器
+python server.py
+```
+
+### MCP 客户端配置
+在 AI 客户端（如 Cursor、Claude）中配置：
+```json
+{
+  "mcpServers": {
+    "openapi2mcpserver": {
+      "command": "uvx",
+      "args": ["openapi2mcpserver"],
+      "env": {
+        "BASE_URL": "your_api_base_url",
+        "OPEN_API_DOC_JSON_URL": "your_openapi_doc_url"
+      }
+    }
+  }
+}
+```
+
+## 工作流程
+
+1. **初始化**: 读取环境变量配置
+2. **获取规范**: 从 `OPEN_API_DOC_JSON_URL` 下载 OpenAPI 3.0 文档
+3. **路由过滤**: 根据 `ROUTE_MAPS` 配置过滤 API 路径（可选）
+4. **MCP 转换**: 使用 FastMCP 自动将 OpenAPI 端点转换为 MCP 工具
+5. **服务启动**: 启动 HTTP MCP 服务器，支持远程客户端连接
+
+### MCP 组件类型转换
+- **默认行为**: 所有 OpenAPI 路径默认转换为 `MCPType.TOOL`
+- **自定义映射**: 可通过 `RouteMap` 指定转换为 `RESOURCE` 或 `RESOURCE_TEMPLATE`
+- **排除规则**: 使用 `MCPType.EXCLUDE` 排除敏感或内部 API
+
+## 注意事项
+
+- 确保 OpenAPI 文档 URL 可访问
+- 配置正确的 BASE_URL，用于实际 API 调用
+- 路由映射配置是可选的，不配置则转换所有 API
+- 服务器使用异步架构，支持并发请求
+- 支持流式响应，适合长时间运行的 API 调用
+
+
+
+
+
+
