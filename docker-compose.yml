@@ -1,0 +1,30 @@
+﻿version: "3.8"
+
+services:
+  openapi2mcp:
+    build: .
+    container_name: openapi2mcp-server
+    restart: unless-stopped
+    ports:
+      - "9087:9087"
+    environment:
+      # 必填环境变量
+      - BASE_URL=${BASE_URL}
+      - OPEN_API_DOC_JSON_URL=${OPEN_API_DOC_JSON_URL}
+      # 可选环境变量
+      - SERVER_NAME=${SERVER_NAME:-OpenAPI2MCP-Docker-Server}
+      - ROUTE_MAPS=${ROUTE_MAPS:-}
+    # 健康检查
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9087/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    # 网络配置
+    networks:
+      - openapi2mcp-network
+
+networks:
+  openapi2mcp-network:
+    driver: bridge
