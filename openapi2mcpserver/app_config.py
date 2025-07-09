@@ -18,6 +18,9 @@ class Config:
 
     
     OPEN_API_DOC_JSON_URL = os.getenv("OPEN_API_DOC_JSON_URL", "")
+
+    print(BASE_URL)
+    print(OPEN_API_DOC_JSON_URL)
     
     # 服务器配置
     SERVER_NAME = os.getenv("SERVER_NAME", "OpenAPI2MCP-Server")
