@@ -1,13 +1,13 @@
 # OpenAPI to MCP Server
 
-这是一个基于FastMCP的OpenAPI转换服务器，提供了以下功能：
+这是一个OpenAPI转换服务器，提供了以下功能：
 
-- OpenAPI规范解析
-- 自动生成MCP工具
-- API调用封装
+- 将OpenAPI规范转换为MCP服务
+- 支持http header透传
+- 支持本地mcp 通用stdio使用方式、也支持docker部署为mcp server后通过streamable http方式使用
 
 
-## MCP 配置
+## MCP 使用配置
 
 本项目支持通过多种客户端配置 MCP 服务器，以便与各种 IDE 或工具集成。以下是一些常见客户端的配置示例：
 
@@ -82,8 +82,14 @@ OPEN_API_DOC_JSON_URL=https://api.xxx.com/api/v3/api-docs/default
 uvx --from openapi2mcpserver
 ```
 
-## 功能
+## docker部署方式
 
-### 测试
+``` docker
+docker run -d -p 9087:9087 -e BASE_URL=http://xxx.xx.xx.xxx:8044/xiaogj-ai-api -e OPEN_API_DOC_JSON_URL=http://xxx.xx.xx.xxx:8044/xiaogj-ai-api/v3/api-docs -e SERVER_NAME=OpenAPI2MCP-Docker-Server -e "ROUTE_MAPS=[{\"methods\":[\"GET\",\"POST\"],\"pattern\":\"^/tool/.*\"}]" jeweis/openapi2mcp:latest
+```
 
-测试
+
+### 说明
+1. “xxx.xx.xx.xxx”需要换成本机ip
+2. 环境变量按实际需求配置
+
