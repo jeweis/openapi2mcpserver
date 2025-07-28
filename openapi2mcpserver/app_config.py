@@ -16,7 +16,8 @@ class Config:
     # 测试配置
     BASE_URL = os.getenv("BASE_URL", "")
 
-    
+    ## 默认stdio
+    TYPE=os.getenv("TYPE","stdio")
     PORT = os.getenv("PORT", 9087)
     CONTEXT_PATH = os.getenv("CONTEXT_PATH", "")
 

@@ -43,9 +43,12 @@ mcp = FastMCP.from_openapi(
 def main():
     """主函数，用于启动openapi2mcp服务器"""
     print("启动 openapi2mcpserver MCP 服务器...")
-    # mcp.run()
-    # To use a different transport, e.g., HTTP:
-    mcp.run(transport="streamable-http", host="0.0.0.0", port=config.PORT,path=config.CONTEXT_PATH)
+    if config.TYPE=="streamable-http":
+        mcp.run(transport="streamable-http", host="0.0.0.0", port=config.PORT,path=config.CONTEXT_PATH)
+    elif config.TYPE=="sse":
+        mcp.run(transport="sse", host="0.0.0.0", port=config.PORT,path=config.CONTEXT_PATH)
+    else:
+        mcp.run()
 
 if __name__ == "__main__":
     main()
