@@ -17,6 +17,10 @@ class Config:
     BASE_URL = os.getenv("BASE_URL", "")
 
     
+    PORT = os.getenv("PORT", 9087)
+    CONTEXT_PATH = os.getenv("CONTEXT_PATH", "")
+
+    
     OPEN_API_DOC_JSON_URL = os.getenv("OPEN_API_DOC_JSON_URL", "")
 
     print(BASE_URL)

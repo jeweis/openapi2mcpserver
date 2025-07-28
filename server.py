@@ -45,7 +45,7 @@ def main():
     print("启动 openapi2mcpserver MCP 服务器...")
     # mcp.run()
     # To use a different transport, e.g., HTTP:
-    mcp.run(transport="streamable-http", host="0.0.0.0", port=9087)
+    mcp.run(transport="streamable-http", host="0.0.0.0", port=config.PORT,path=config.CONTEXT_PATH)
 
 if __name__ == "__main__":
     main()
