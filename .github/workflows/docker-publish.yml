@@ -14,7 +14,7 @@ on:
 
 env:
   REGISTRY: docker.io
-  IMAGE_NAME: openapi2mcpserver
+  IMAGE_NAME: openapi2mcp
 
 jobs:
   build-and-push:

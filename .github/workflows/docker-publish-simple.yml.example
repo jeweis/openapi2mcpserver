@@ -23,5 +23,5 @@ jobs:
         context: .
         push: true
         tags: |
-          ${{ secrets.DOCKERHUB_USERNAME }}/openapi2mcpserver:latest
-          ${{ secrets.DOCKERHUB_USERNAME }}/openapi2mcpserver:${{ github.sha }}
+          ${{ secrets.DOCKERHUB_USERNAME }}/openapi2mcp:latest
+          ${{ secrets.DOCKERHUB_USERNAME }}/openapi2mcp:${{ github.sha }}
